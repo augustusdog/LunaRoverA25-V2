@@ -9,31 +9,27 @@ If I wanted to leave my dog in the garden to entertain herself, what products co
 
 ![Lit Review Venn](./venn.png)
 
-
 It surprises me that I couldn't find evidence of someone having created an autonomous vehicle to play with their dog... that's something that I've sought to resolve.
 
 ## Proposed solution
 Brushed motor radio controlled (rc) car modified to drive autonomously with the help of a raspberry pi.
 
 ## Method
-### Modify rc car to be remotely controlled from a raspberry pi.
-#### Step 1 - Understand how the rc car hand-me-down I got worked and retrofitting my own circuitry
-I was fortunate enough to be given an rc car for free by my uncle. What's great about the rc car that I got is that it is really easy to understand what is going on, and it meets my torque requirements!
+### Design new RC car, with a customisable drivetrain
+#### Step 1 - Design the RC car
+The premise for designing my own RC car from scratch was to address the two failure points alluded to above:
+a. Not enough torque
+b. Steering mechanism getting caught in long grass
 
-So.... how does it work? A radio transponder sends out a signal to a transceiver (mine was an acoms transceiver). The transceiver then interprets the signal and sends a Pulse Width Modulated (PWM) signal to one of two servos. The first servo controls direction of the front wheels, the second servo controls a mechanical speed controller - which is sort of like a potentiometer for scaling output voltage to the brushed dc motor driving the rear wheels. It's important to note that there is a Battery Eliminator Circuit (BEC) in the acoms receiver which enables the 7.2V from the battery to be stepped down to within the operating voltage range for servo motors.
+Point "a" can be addressed by having a drivetrain where gear ratio can easily be adjusted, therefore enabling for RPM to be compensated for torque, or vice versa. Point "b" can be addressed by having a dual wheel drive (one motor attached to a wheel on each side), therefore cicumventing the need for a steering system.
 
-So, easy right.... well, a bit, but not entirely. My servo motor was a hand-me-down, so naturally I was missing the transponder to control the rc car. So, I had to control the car another way... in the end I opted for a raspberry pi 5 - as I know I'd end up using it for the image detection later on. I stripped out the receiver and modified the circuitry slightly so that it looked like the below:
+![Design](./LunaRover Mk2.png)
 
-![Circuit Diagram](./circuit.PNG)
+#### Step 2 - Desinging electronics
 
-#### Step 2 - Uploading an operating system to the raspberry pi
-
-Without an operating system you're going to have some problems using your raspberry pi.... so definitely don't skip this step. For this step you'll need a microsd card, someway to connect that microsd card to your computer, and [raspberry pi imager software](https://www.raspberrypi.com/software/). Make sure to go to settings and take note of your hostname, user, password, and ensure wi-fi credentials are correct! I had some issues with this step... hopefully you won't.
+..components etc.
 
 #### Step 3 - Developing the firmware
 
-Raspberry Pi 5's... just get a 4 and save yourself the hassle. Previously popular GPIO libraries can't be used on the Pi 5, which means you'll have to use another. I used the gpiod library to control my servos - as shown below. In the end I decided to operate my brushed DC motor for X time whenever the up-arrow was pressed, as the motor was far more powerful than I realised and I didn't want to convert that motor speed to more torque with additional gears.
-
-I wrote this code after connecting to my raspberry pi using Secure Socket Shell (SSH) and using the "nano" command.
 
 ```
